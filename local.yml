@@ -1,0 +1,44 @@
+version: '3'
+
+volumes:
+  postgres_data_local: {}
+  postgres_backup_local: {}
+  nagoya_data_local: {}
+
+services:
+  django:
+    build:
+      context: .
+      dockerfile: ./compose/local/django/Dockerfile
+    depends_on:
+      - postgres
+      - nagoyadb
+    volumes:
+      - .:/app
+    environment:
+      - POSTGRES_USER=nagoya_rest
+      - USE_DOCKER=yes
+    ports:
+      - "8000:8000"
+    command: /start.sh
+
+  postgres:
+    build:
+      context: .
+      dockerfile: ./compose/production/postgres/Dockerfile
+    volumes:
+      - postgres_data_local:/var/lib/postgresql/data
+      - postgres_backup_local:/backups
+    environment:
+      - POSTGRES_USER=nagoya_rest
+
+
+  nagoyadb:
+    build:
+      context: .
+    ports:
+      - "5411:5432"
+    environment:
+      - POSTGRES_USER=djnagoya
+      - POSTGRES_DB=djnagoya
+      - POSTGRES_PASSWORD=test1234

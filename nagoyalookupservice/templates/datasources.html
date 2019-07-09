@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+
+    <!-- Font Awesome Integration-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
+    <!-- My own Nagoya CSS stylesheet-->
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/nagoyastyle.css' %}" type="text/css" media="screen"/>
+
+    <!-- Poppins font integration-->
+    <link href="https://fonts.googleapis.com/css?family=Poppins:500" rel="stylesheet">
+
+    <!-- Open every link on this page in a new tab-->
+    <base target="_blank">
+
+    <!-- responsive viewport meta tag-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+</head>
+<!-- opening this div here so the entire page is centered -->
+<div id="home">
+
+      <div class="navigation-bar">
+        <ul>
+         <li><a class="active" href="{% url 'web-lookup' %}" target="_self"><i class="fas fa-home"></i> Home </a></li>
+         <li><a href="#myModal" target="_self" data-toggle="modal"> Disclaimer </a></li>
+         <li><a href="{% url 'datasources' %}" target="_self"> Data Sources </a></li>
+         <li><a href="{% url 'swagger' %}"> Lookup REST API <i class="fas fa-external-link-alt"> </i> </a></li>
+        </ul>
+      </div>
+<!-- opening this div here so the entire page is centered -->
+
+
+<br>
+
+<img src="{% static 'images/nagoya_log.png' %}" alt="Nagoya Lookup Web Service Logo" width="37%" height="37%">
+
+<br>
+<br>
+<br>
+
+<h1 id="h1" style="font-family:Poppins;color:green"> <b> DATA SOURCES </b> </h1>
+<br>
+<br>
+
+<div class="sources"  style="text-align:left;margin-left:35%">
+            <p style="font-size:30px;">  ABS Clearing House <a href="https://absch.cbd.int/"><i class="fas fa-external-link-alt" style="font-size:85%"></i></a></p><p><i class="fas fa-file-download" style="color:green"></i> automatically downloaded at {{ database_last_updated }}</p>
+<br>            <p style="font-size:30px;">  WikiData <a href="https://www.wikidata.org/wiki/Wikidata:Main_Page"><i class="fas fa-external-link-alt" style="font-size:85%"></i></a></p><p><i class="fas fa-file-download" style="color:green"></i> automatically downloaded at {{ database_last_updated }}</p>
+<br>            <p style="font-size:30px;">  Marine Regions <a href="http://www.marineregions.org/downloads.php"> <i class="fas fa-external-link-alt" style="font-size:85%"></i></a></p><p><i class="fas fa-file-download" style="color:green"></i> manually downloaded "Marine and land zones: the union of world country boundaries and EEZ's", Version 2</p>
+<br>            <p style="font-size:30px;">  Geonames <a href="http://download.geonames.org/export/dump/"> <i class="fas fa-external-link-alt" style="font-size:85%"></i></a></p><p><i class="fas fa-file-download" style="color:green"s></i> automatically downloaded at {{ database_last_updated }}</p>
+    </div>
+
+<br>
+<br>
+<br>
+<br>
+
+
+</div>
+
+
+
+
+<!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+
+
+ <div id="myModal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal">&times;</button>
+    </div>
+    <p style="font-family:Poppins;text-align:left;font-size:23px;">
+          This lookup service is provided as an information service only and does not constitute legal advice. While it is set up to provide the latest Nagoya
+          <br/>party information, this service relies on third party data sources. This is particularly
+          <br/>true with regard to the information and documents on each individual country's national law which this database does not comprehensively cover.
+          <br/>This service additionally contains links to external websites and content originating from third parties. Such external links are not investigated, monitored or checked for
+          <br/>accuracy, validity, reliability, availability and completeness by us. Your use of this service and your reliance on any kind of information provided here is
+          solely at your own risk.
+    </p>
+  </div>
+</div>
+
+<script type="text/javascript">
+// Get the modal
+var modal = document.getElementById('myModal');
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
+</script>
+
+
+
+
+  </body>
+</html>

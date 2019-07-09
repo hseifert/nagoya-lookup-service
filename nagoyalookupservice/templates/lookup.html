@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="en">
+<head>
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+
+    <!-- Font Awesome Integration-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
+
+
+    <!-- Poppins font integration-->
+    <link href="https://fonts.googleapis.com/css?family=Poppins:500" rel="stylesheet">
+
+    <!-- My own Nagoya CSS stylesheet-->
+    {% load static %}
+
+    <link rel="stylesheet" href="{% static 'css/nagoyastyle.css' %}" type="text/css" media="screen"/>
+
+    <base target="_blank">
+</head>
+<!-- opening this div here so the entire page is centered -->
+<body>
+
+<nav>
+  <div class="navigation-bar">
+    <ul>
+      <li><a class="active" href="#home"><i class="fas fa-home"></i> Home </a></li>
+      <li><a href="#myModal" target="_self" data-toggle="modal"> Disclaimer </a></li>
+      <li><a href="{% url 'datasources' %}"> Data Sources </a></li>
+      <li><a href="{% url 'swagger' %}"> Lookup REST API <i class="fas fa-external-link-alt"> </i> </a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="row">
+  <div class="col align-self-center">
+    <img class="logo" src="{% static 'images/nagoya_log.png' %}" alt="Nagoya Lookup Web Service Logo">
+  </div>
+</div>
+
+
+<div class="container-fluid">
+  <div class="row justify-content-center">
+    <div class="col-8">
+      <div class="form-group">
+       <form class="form-inline" action="{% url 'web-lookup' %}" method="get" target="_self">
+          <label for="latitude">Latitude:</label>
+          <input id="latitude" type="text" name="latitude" value="{{ latitude }}" required>
+
+          <label for="longitude">Longitude: </label>
+          <input id="longitude" type="text" name="longitude" value="{{ longitude }}" required>
+
+          <label for="radius">Radius(m): </label>
+          <input id="radius" type="text" name="radius" value="{{ radius }}" required>
+
+          <input class="btn btn-success" type="submit" style="font-size:100%" value="LOOK UP! "> <i class="fas fa-info-circle" style="color:dimgrey" title="Please enter latitude and longitude in decimal degrees. Decimal separator is a dot.
+           Valid range for latitudes: -90 to +90
+           Valid range for longitudes: -180 and +180"></i>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!--
+<form action="{% url 'web-lookup' %}" method="post" enctype="multipart/form-data">{% csrf_token %}
+  <input type="file" name="fileup" value="fileupload" id="fileupload"  style="font-family:Poppins;font-size:90%;">
+  <label for="fileupload" style="font-family:Poppins;font-size:90%;">Select a csv file to submit</label> <input class="btn btn-success btn-sm" type="submit" value="SUBMIT">
+  <i class="fas fa-info-circle" style="color:dimgrey;" title="This feature is currently not available."></i> </form>
+-->
+
+<!-- <form>
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" value="Look Up!">
+</form>
+-->
+
+{% if not empty %}
+    {% if form.errors %}
+        ERROR:
+        {{ form.errors }}
+    {% else %}
+
+<h1> SEARCH RESULTS </h1>
+
+
+      <style>
+        table, th, td {
+            padding: 3px;
+            font-family: Poppins;
+            margin: auto;
+            margin-bottom:30px;
+            font-size: 90%;
+            border-bottom:1px solid black;
+            }
+        table {
+            border-spacing: 3px;
+            }
+      </style>
+
+<table>
+  <tr>
+    <th>Country Name (Marine Regions)</th>
+    <th>Country Name (Wikidata)</th>
+    <th>Distance to queried coordinates (m)</th>
+    <th>Nagoya party date</th>
+    <th>ABSCH country profile <i class="fas fa-info-circle" style="color:dimgrey;" title="Please follow this link to contact the NFP"></i></th>
+    <th>CBD country profile</th>
+  </tr>
+
+  {% for p in parties %}
+
+  <tr>
+    <td>{{ p.marine_regions_country }}</td>
+    <td>{{ p.wikidata_country }}</td>
+    <td>{{ p.distance }}</td>
+
+    {% if p.party_date == null or p.party_date == "" %}
+      <td style="background-color:#E5C6C7">Not a Party</td>
+    {% else %}
+      <td style="background-color:#C7E2C7">Is a Party since {{ p.party_date }}</td>
+    {% endif %}
+
+    {% if p.absch_profile == null or p.absch_profile == 'n/a' %}
+      <td>N/A</td>
+    {% else %}
+      <td align="left"><a href="{{ p.absch_profile }}">{{ p.absch_profile }}</a></td>
+    {% endif %}
+
+    {% if p.cbd_profile == null or p.cbd_profile == 'n/a' %}
+      <td>N/A</td>
+    {% else %}
+      <td align="left"><a href="{{ p.cbd_profile }}">{{ p.cbd_profile }}</a></td>
+    {% endif %}
+  </tr>
+
+  {% endfor %}
+</table>
+
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <button class="btn btn-success btn" type="button" data-toggle="collapse" data-target="#h"> <i class="far fa-question-circle"> Result Interpretation Help </i> </button>
+        <div id="h" class="collapse">
+          <p>
+            <br/>
+            <br/>If the lookup results in an empty list please be aware this generally means there are no countries identified within the searched radius. However, there is a small probability
+            <br/>of it being a false negative, i.e. an empty list even though there are countries within the search radius. This might happen if the database is not entirely synchronized with the
+            <br/>legal regulations on the exact EEZ borders of every country, or in case of deviations between EEZ borders of sea floor and water mass. As reliable
+            <br/>the database may be, a search radius of at least 5 km is always recommended to yield an output as concise as desired and as expansive as necessary. If you have profound
+            <br/>reason to expect a country where an empty list is returned we advise you to contact the corresponding NFP. Please also check the <a href="https://treaties.un.org/pages/ViewDetails.aspx?src=IND&mtdsg_no=XXVII-8-b&chapter=27&clang=_en" style="font-family:verdana;"> <i class="fas fa-external-link-alt"> </i> United Nations Treaty Collection Website</a>
+            <br/> for any country-specific agreements and declarations that may apply to your searched area.
+          </p>
+        </div>
+    </div>
+  </div>
+</div>
+
+{% load leaflet_tags %}
+{% leaflet_css %}
+{% leaflet_js %}
+
+<div class="container-fluid">
+  <div class="row">
+   <div class="col-md-7">
+
+        <h4> WORLD MAP SHOWING THE QUERIED AREA </h4>
+         <i class="fas fa-info-circle" style="color:dimgrey;" title="Zoom in to the map for a more detailed view"></i>
+          <br>
+          <br>
+    {% leaflet_map "main" callback="map_init" %}
+   </div>
+
+    <div class="col-md-5">
+
+        <h4> SEARCH PARAMETERS </h4>
+          <br>
+          <br>
+
+        <div class="params">
+            <p><i class="fas fa-globe"></i>  Latitude: {{ latitude }}</p>
+            <p><i class="fas fa-globe"></i>  Longitude: {{ longitude }}</p>
+            <p><i class="far fa-dot-circle"></i>  Radius (m): {{ radius }}</p>
+            <p><i class="fas fa-search-location"></i>  Query date & time: {{ query_date_time }}</p>
+            <p><i class="fas fa-database"></i>  Database last updated: {{ database_last_updated }} <a href="{% url 'datasources' %}">Data Sources</a></p>
+        </div>
+    </div>
+  </div>
+</div>
+
+    {% endif %}
+{% endif %}
+
+</body>
+
+<!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+
+
+<div id="myModal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal">&times;</button>
+    </div>
+    <p style="font-family:Poppins;text-align:left;font-size:23px;">
+          This lookup service is provided as an information service only and does not constitute legal advice. While it is set up to provide the latest Nagoya
+          <br/>party information, this service relies on third party data sources. This is particularly
+          <br/>true with regard to the information and documents on each individual country's national law which this database does not comprehensively cover.
+          <br/>This service additionally contains links to external websites and content originating from third parties. Such external links are not investigated, monitored or checked for
+          <br/>accuracy, validity, reliability, availability and completeness by us. Your use of this service and your reliance on any kind of information provided here is
+          solely at your own risk.
+    </p>
+  </div>
+</div>
+
+
+
+
+<script type="text/javascript">
+// Get the modal
+var modal = document.getElementById('myModal');
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
+</script>
+
+
+    <script type="text/javascript">
+      function map_init(map, options) {
+        // get point lat and lon
+        var lon = "{{ longitude }}";
+        var lat = "{{ latitude }}";
+        // zoom to point & add it to map
+        map.setView([lat, lon], 5);
+        circle = L.circle([lat, lon], {
+          color: 'red',
+          fillColor: '#ffa4a5',
+          fillOpacity: 0.5,
+          radius: {{ radius }}
+        }).addTo(map);
+        // Creating a Layer object
+        var layer = new L.TileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}');
+        // Adding layer to the map
+        map.addLayer(layer);
+        map.fitBounds(circle.getBounds());
+      }
+    </script>
+
+</body>
+</html>

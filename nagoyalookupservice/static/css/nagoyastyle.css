@@ -1,0 +1,164 @@
+body {
+  background-color: #E3E2E4;
+  text-align:center;
+  font-size:15px;
+}
+
+h1 {
+  font-family:Poppins;
+  color:green;
+  font-weight: bold;
+  padding:30px;
+}
+
+h4 {
+  font-family:Poppins;
+  color:green;
+  font-weight: bold;
+  padding:20px;
+}
+
+.navigation-bar ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-image: linear-gradient(90deg, #296826, #3E923A);
+}
+
+.navigation-bar li {
+  float: left;
+}
+
+.navigation-bar li a {
+  display: block;
+  font-family:Poppins;
+  font-size:140%;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  border-right: 1px solid #bbb;
+}
+
+.navigation-bar li a:hover:not(.active) {
+  background-color: #175417;
+}
+
+.active {
+  background-color: green;
+}
+
+
+
+.btn {
+  background-image: linear-gradient(90deg, #296826, #3E923A);
+  -webkit-box-shadow: 6px 5px 24px darkgrey;
+  border: none;
+
+}
+
+.logo {
+  width:550px;
+  height:200px;
+  padding:10px;
+}
+
+.params i {
+  font-size:120%;
+  color:green;
+}
+
+.params p {
+  font-family:Poppins;
+  padding:10px;
+  text-align:left;
+}
+
+.centering {
+  margin:auto;
+}
+
+.form-inline {
+  font-weight: bold;
+}
+
+.form-inline label{
+  font-family:Poppins;
+  color:green;
+  padding:8px;
+}
+
+.form-inline input {
+  font-family:Poppins;
+  background-color:#EFEFF0;
+  font-weight: bold;
+}
+.btn-success {
+  padding:5px;
+  margin: 5px;
+}
+
+.sources {
+  font-family:Poppins;
+}
+
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  z-index: 1; /* Sit on top */
+  padding-top: 80px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 10px;
+  border: 1px solid #888;
+  width: 80%;
+}
+
+.modal-backdrop {
+  z-index:-1;
+}
+
+/* The Close Button */
+.close {
+  color: green;
+  float: left;
+  font-size: 40px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.row {
+  padding:2px;
+}
+
+.container {
+  padding:2px;
+}
+
+.collapse p {
+  font-family:Poppins;
+  text-align:left;
+  font-size: 14px;
+}
+
+.col-md-7 {
+  margin-bottom:40px;
+}

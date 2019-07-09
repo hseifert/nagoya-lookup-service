@@ -1,0 +1,49 @@
+<form action="{% url 'web-lookup' %}" method="get">
+    <label for="latitude">Latitude: </label>
+    <input id="latitude" type="text" name="latitude" value="{{ latitude }}" required>
+
+    <label for="longitude">Longitude: </label>
+    <input id="longitude" type="text" name="longitude" value="{{ longitude }}" required>
+
+    <input type="submit" value="Look Up!">
+</form>
+
+<!-- <form>
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" value="Look Up!">
+</form>
+-->
+
+{% if not empty %}
+    {% if form.errors %}
+        ERROR:
+        {{ form.errors }}
+    {% else %}
+        Search parameters:
+        <ul>
+            <li>Latitude: {{ latitude }}</li>
+            <li>Longitude: {{ longitude }}</li>
+            <li>Radius: {{ radius }}</li>
+        </ul>
+
+        <h2>Results</h2>
+        <table>
+            <tr>
+                <th>Country</th>
+                <th>Distance (m)</th>
+                <th>ABS-CH country profile</th>
+                <th>CBD country profile</th>
+            </tr>
+
+            {% for p in parties %}
+                <tr>
+                    <td>{{ p.country_name }}</td>
+                    <td>{{ p.distance }}</td>
+                    <td><a href="{{ p.absch_profile }}">{{ p.absch_profile }}</a></td>
+                    <td><a href="{{ p.cbd_profile }}">{{ p.cbd_profile }}</a></td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
+{% endif %}
