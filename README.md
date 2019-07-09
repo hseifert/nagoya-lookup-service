@@ -1,14 +1,14 @@
-# hseifert/NagoyaLookupService
+# hseifert/nagoya-lookup-service
 
-The hseifert/NagoyaLookupService repository provides a web service based on an integrated database to extract Nagoya Protocol information from combined third party sources. It is a modular lookup service based on GPS coordinates to check indications on Nagoya requirements. Using latitude, longitude and a search radius the service checks possible nearby country borders that might need to be considered and more importantly whether these countries have signed the Nagoya Protocol or not.
+The hseifert/nagoya-lookup-service repository provides a web service based on an integrated database to extract Nagoya Protocol information from combined third party sources. It is a modular lookup service based on GPS coordinates to check indications on Nagoya requirements. Using latitude, longitude and a search radius the service checks possible nearby country borders that might need to be considered and more importantly whether these countries have signed the Nagoya Protocol or not.
 
 #### How to cite
-H. Seifert, A GIS - Enabled Lookup Service for Nagoya Protocol Indications, (2019), GitHub repository, https://github.com/hseifert/NagoyaLookupService
+H. Seifert, A GIS - Enabled Lookup Service for Nagoya Protocol Indications, (2019), GitHub repository, https://github.com/hseifert/nagoya-lookup-service
 
 ## Getting Started
 To get a copy of this project on your local machine for development or testing purposes simply clone the repository using  
 
-`git clone https://github.com/hseifert/NagoyaLookupService`
+`git clone https://github.com/hseifert/nagoya-lookup-service`
 
 ## Local usage
 
